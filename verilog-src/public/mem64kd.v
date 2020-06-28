@@ -111,6 +111,7 @@ module mem64kd (
 		altsyncram_component.numwords_a = 16384,
 		altsyncram_component.numwords_b = 16384,
 		altsyncram_component.operation_mode = "BIDIR_DUAL_PORT",
+//		altsyncram_component.operation_mode = "SINGLE_PORT",
 		altsyncram_component.outdata_aclr_a = "NONE",
 		altsyncram_component.outdata_aclr_b = "NONE",
 		altsyncram_component.outdata_reg_a = "UNREGISTERED",
@@ -126,6 +127,7 @@ module mem64kd (
 		altsyncram_component.width_byteena_a = 4,
 		altsyncram_component.width_byteena_b = 1,
 		altsyncram_component.wrcontrol_wraddress_reg_b = "CLOCK0";
+//		altsyncram_component.lpm_hint = "ENABLE_RUNTIME_MOD=YES,INSTANCE_NAME=NONE";
 
 
 endmodule

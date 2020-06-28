@@ -413,7 +413,7 @@ module debugger(input         sys_clock,
    reg [23:0] seg7_blink_count;
    // 点滅信号
    wire blink;
-   assign blink = seg7_blink_count[23] | ~input_mode;
+   // assign blink = seg7_blink_count[23] | ~input_mode;
 
    // 点滅用の状態遷移
    // blink が 約 1.2 秒の間隔で点滅する．
@@ -487,6 +487,8 @@ module debugger(input         sys_clock,
    assign mem_addr   = mar;
    assign mem_write  =  input_mode & button3 & mem_sel;
    assign mem_read   =  input_mode & ~button3 & mem_sel;
+
+   assign blink = seg7_blink_count[23] | ~input_mode;
 
    assign led_out = {cstate, 3'b0, running};
 

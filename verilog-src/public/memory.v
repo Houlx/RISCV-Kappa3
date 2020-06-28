@@ -50,5 +50,7 @@ module memory(input         clock,
 	       .wren_b(dbg_write & sel_b),
 	       .q_a(rddata),
 	       .q_b(dbg_out));
+	
+//	defparam memory.lpm_hint ="ENABLE_RUNTIME_MOD = YES,INSTANCE_NAME = memo";
 
 endmodule // memory

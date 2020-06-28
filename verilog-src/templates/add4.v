@@ -14,9 +14,13 @@
 // cin:    キャリー入力
 // s:      4ビット出力
 // cout:   キャリー出力
+
 module add4(input [3:0]  a, b,
 	    input 	 cin,
 	    output [3:0] s,
 	    output 	 cout);
+		 
+		 assign {cout,s}=(cin<<4)+a+b;
+		 
 
 endmodule // add4
