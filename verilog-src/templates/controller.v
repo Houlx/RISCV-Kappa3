@@ -198,10 +198,10 @@ module controller(input [3:0]   cstate,//動作フェイズを表す4ビット�
 					endcase
 				end
 				///////test////////
-				else if(cstate==4'b0010)begin
+				else if(cstate==4'b0010)begin//EX
 					case(ir[6:0])
-						7'b1101111:regf=3'b101;
-						7'b1100111:regf=3'b101;
+						7'b1101111:regf=3'b101;//jal
+						7'b1100111:regf=3'b101;//jalr
 					endcase
 				end
 				///////test////////
@@ -267,7 +267,13 @@ module controller(input [3:0]   cstate,//動作フェイズを表す4ビット�
 				if(cstate==4'b0100)begin
 					case (ir[6:0])
 						7'b0110011:begin //ADD series
-							case (ir[14:12])
+							// if(ir[31:25]==7'b0000001)begin//multiply and divide
+							// 	case (ir[14:12])
+							// 		3'b000:
+							// 	endcase
+							// end
+							// else begin
+								case (ir[14:12])
 								3'b000:begin
 									case(ir[31:25])
 										7'b0000000:alu={{2'b00},{ALU_ADD}};
@@ -286,7 +292,8 @@ module controller(input [3:0]   cstate,//動作フェイズを表す4ビット�
 								end
 								3'b110:alu={{2'b00},{ALU_OR}};
 								3'b111:alu={{2'b00},{ALU_AND}};
-							endcase
+								endcase
+							// end
 						end
 						7'b0010011:begin //ADDI series
 							//asel,bsel=0,1

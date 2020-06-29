@@ -61,10 +61,11 @@ module pc_add(input [31:0] pc,
 						input step_phase,
 						input step_inst,
 						input [31:0] pc);
-		if(cstate==4'b0001&&(run||step_inst||step_phase))
-			pc_n=pc+4;
-		else
-			pc_n=pc;
+//		if(cstate==4'b0001&&(run||step_inst||step_phase))
+//			pc_n=pc+4;
+//		else
+//			pc_n=pc;
+		pc_n=pc+4;
 	endfunction
 
 	assign pc_next=pc_n(cstate,run,step_phase,step_inst,pc);
@@ -140,8 +141,10 @@ module kappa3_light_core(input 	       clock,
 		   .dbg_address(dbg_mem_addr),
 		   .dbg_read(dbg_mem_read),
 		   .dbg_write(dbg_mem_write),
-		   .dbg_in(dbg_in),
-		   .dbg_out(dbg_mem_out));
+		   .dbg_in(dbg_in));
+//		   .dbg_out(dbg_mem_out));
+
+	assign dbg_mem_out=mem_rddata;
 
 	// IR
    wire [31:0] 		 ir_in;      // IR の書き込みデータ
@@ -338,10 +341,6 @@ module kappa3_light_core(input 	       clock,
 	endfunction
 	assign rd_in=rd_selor(ldconvout,pc,creg,csr_out,rd_sel);
 
-//	defparam mem_inst.lpm_hint="ENABLE_RUNTIME_MOD = YES,INSTANCE_NAME = mem_inst";
-
 endmodule // kappa3_light_core
-
-// module pcadd4(input [31:0] pc,output reg [31:0] pc_next);
 	
 // endmodule

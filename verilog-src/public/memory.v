@@ -35,22 +35,27 @@ module memory(input         clock,
 	      input [31:0]  dbg_address,
 	      input 	    dbg_read,
 	      input 	    dbg_write,
-	      input [31:0]  dbg_in,
-	      output [31:0] dbg_out);
+	      input [31:0]  dbg_in);
+//	      output [31:0] dbg_out);
 
    wire 		    sel_a = address[31:16] == 16'h1000;
-   wire 		    sel_b = dbg_address[31:16] == 16'h1000;
-   mem64kd mem(.clock(clock),
-	       .address_a(address[15:2]),
-	       .address_b(dbg_address[15:2]),
-	       .byteena_a(wrbits),
-	       .data_a(wrdata),
-	       .data_b(dbg_in),
-	       .wren_a(write & sel_a),
-	       .wren_b(dbg_write & sel_b),
-	       .q_a(rddata),
-	       .q_b(dbg_out));
+//   wire 		    sel_b = dbg_address[31:16] == 16'h1000;
+//    mem64kd mem(.clock(clock),
+// 	       .address_a(address[15:2]),
+// //	       .address_b(dbg_address[15:2]),
+// 	       .byteena_a(wrbits),
+// 	       .data_a(wrdata),
+// //	       .data_b(dbg_in),
+// 	       .wren_a(write & sel_a),
+// //	       .wren_b(dbg_write & sel_b),
+// 	       .q_a(rddata));
+// //	       .q_b(dbg_out));
+	single_port_ram(.clock(clock),
+					.address(address[15:2]),
+					.byteena(wrbits),
+					.data(wrdata),
+					.wren(write & sel_a),
+					.q(rddata));
 	
-//	defparam memory.lpm_hint ="ENABLE_RUNTIME_MOD = YES,INSTANCE_NAME = memo";
 
 endmodule // memory
