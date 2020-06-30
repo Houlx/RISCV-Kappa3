@@ -271,11 +271,6 @@ module kappa3_light_core(input 	       clock,
 	
 	wire [31:0] pc_n;
 	pc_add pc_add_inst(.pc(pc),
-						.run(run),
-						.running(running),
-						.step_phase(step_phase),
-						.step_inst(step_inst),
-						.cstate(cstate),
 						.pc_next(pc_n),
 						);
 
