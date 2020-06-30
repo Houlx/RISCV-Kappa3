@@ -48,28 +48,7 @@
 // 	assign pc_out=pc_sel?creg:pc+4;
 
 // endmodule // pc_selector
-module pc_add(input [31:0] pc,
-			input run,
-			input running,
-			input step_phase,
-			input step_inst,
-			input [3:0] cstate,
-			output [31:0] pc_next);
 
-	function [31:0] pc_n(input [3:0] cstate,
-						input run,
-						input step_phase,
-						input step_inst,
-						input [31:0] pc);
-//		if(cstate==4'b0001&&(run||step_inst||step_phase))
-//			pc_n=pc+4;
-//		else
-//			pc_n=pc;
-		pc_n=pc+4;
-	endfunction
-
-	assign pc_next=pc_n(cstate,run,step_phase,step_inst,pc);
-endmodule
 module kappa3_light_core(input 	       clock,
 			 input 	       clock2,
 			 input 	       reset,
@@ -328,18 +307,18 @@ module kappa3_light_core(input 	       clock,
 	wire [31:0] csr_out;
 
 	function [31:0] rd_selor(input [31:0] ldconvout,
-							 input [31:0] pc,
+							 input [31:0] pc_n,
 							 input [31:0] creg,
 							 input [31:0] csr_out,
 							 input [1:0] rd_sel);
 		case (rd_sel)
 			2'b00: rd_selor=ldconvout;
-			2'b01: rd_selor=pc;
+			2'b01: rd_selor=pc_n;
 			2'b10: rd_selor=creg;
 			2'b11: rd_selor=csr_out;
 		endcase
 	endfunction
-	assign rd_in=rd_selor(ldconvout,pc,creg,csr_out,rd_sel);
+	assign rd_in=rd_selor(ldconvout,pc_n,creg,csr_out,rd_sel);
 
 endmodule // kappa3_light_core
 	

@@ -77,20 +77,20 @@ module controller(input [3:0]   cstate,//動作フェイズを表す4ビット�
 		  wire [1:0] pc_ctrl;
 		   
 		  function [1:0] pc(input [3:0] cstate, input [31:0] ir, input [31:0] alu_out);//ret [pc_ld,pc_sel]
-			  if (cstate==4'b0001) begin
-				//   pc_ld=1;
-				//   pc_sel=0;
-				  pc=2'b10;
-			  end
-			  else if (cstate==4'b1000&&(ir[6:0]==7'b1101111||ir[6:0]==7'b1100111)) begin
+			  if (cstate==4'b1000&&(ir[6:0]==7'b1101111||ir[6:0]==7'b1100111)) begin //WB jal,jalr PC=Creg
 				//   pc_ld=1;
 				//   pc_sel=1;
 				  pc=2'b11;
 			  end
-			  else if (cstate==4'b1000&&ir[6:0]==7'b1100011&&alu_out==32'b1) begin
+			  else if (cstate==4'b1000&&ir[6:0]==7'b1100011&&alu_out==32'b1) begin //WB beq... PC=Creg
 				// pc_ld=1;
 				// pc_sel=1;
 				pc=2'b11;
+			  end
+			  else if (cstate==4'b1000) begin//WB others PC=PC+4
+				//   pc_ld=1;
+				//   pc_sel=0;
+				  pc=2'b10;
 			  end
 			  else begin
 				//   pc_ld=0;
@@ -340,8 +340,8 @@ module controller(input [3:0]   cstate,//動作フェイズを表す4ビット�
 						end
 					endcase
 				end
-				else if(cstate==4'b1000)begin
-					if(ir[6:0]==7'b1100011)begin
+				else if(cstate==4'b1000)begin//WB phase
+					if(ir[6:0]==7'b1100011)begin// conditional jump
 						case (ir[14:12])
 								3'b000: alu={{2'b00},{ALU_EQ}};
 								3'b001: alu={{2'b00},{ALU_NE}};
